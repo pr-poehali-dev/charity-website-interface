@@ -1,5 +1,4 @@
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+
 import { Card, CardContent } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
 
@@ -35,8 +34,7 @@ const About = () => {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
+    <div>
       
       <main className="flex-1">
         <section className="py-20 bg-gradient-to-br from-blue-50 to-green-50">
@@ -117,8 +115,6 @@ const About = () => {
           </div>
         </section>
       </main>
-
-      <Footer />
     </div>
   );
 };
