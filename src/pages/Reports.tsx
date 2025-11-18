@@ -1,65 +1,65 @@
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import { Progress } from '@/components/ui/progress';
 
 const Reports = () => {
-  const annualReports = [
+  const reports = [
     {
-      year: '2024',
-      period: 'Январь - Октябрь 2024',
-      raised: '45,200,000 ₽',
-      helped: '8,500 человек',
-      projects: '156 проектов',
+      period: 'Октябрь 2024',
+      received: '4 250 000 ₽',
+      spent: '4 100 000 ₽',
+      projects: 12,
+      people: 347,
+      file: '#'
     },
     {
-      year: '2023',
-      period: 'Годовой отчёт 2023',
-      raised: '52,800,000 ₽',
-      helped: '10,200 человек',
-      projects: '183 проекта',
+      period: 'Сентябрь 2024',
+      received: '3 890 000 ₽',
+      spent: '3 750 000 ₽',
+      projects: 10,
+      people: 312,
+      file: '#'
     },
     {
-      year: '2022',
-      period: 'Годовой отчёт 2022',
-      raised: '48,300,000 ₽',
-      helped: '9,800 человек',
-      projects: '167 проектов',
-    },
-  ];
-
-  const currentProjects = [
-    {
-      title: 'Помощь многодетным семьям',
-      description: 'Обеспечение продуктами и вещами',
-      raised: 1250000,
-      goal: 2000000,
-      helped: 45,
-    },
-    {
-      title: 'Лечение детей',
-      description: 'Оплата медицинских процедур',
-      raised: 3800000,
-      goal: 5000000,
-      helped: 12,
-    },
-    {
-      title: 'Образовательные стипендии',
-      description: 'Поддержка талантливых детей',
-      raised: 890000,
-      goal: 1200000,
-      helped: 28,
+      period: 'Август 2024',
+      received: '5 120 000 ₽',
+      spent: '4 980 000 ₽',
+      projects: 15,
+      people: 425,
+      file: '#'
     },
   ];
 
-  const spending = [
-    { category: 'Медицинская помощь', percent: 35, color: 'bg-blue-500' },
-    { category: 'Социальная поддержка', percent: 30, color: 'bg-green-500' },
-    { category: 'Образование', percent: 20, color: 'bg-yellow-500' },
-    { category: 'Продукты и вещи', percent: 10, color: 'bg-purple-500' },
-    { category: 'Административные расходы', percent: 5, color: 'bg-gray-400' },
+  const expenses = [
+    { category: 'Медицинская помощь', percent: 35, amount: '1 435 000 ₽' },
+    { category: 'Помощь детям', percent: 30, amount: '1 230 000 ₽' },
+    { category: 'Помощь пожилым', percent: 20, amount: '820 000 ₽' },
+    { category: 'Административные расходы', percent: 10, amount: '410 000 ₽' },
+    { category: 'Другое', percent: 5, amount: '205 000 ₽' },
+  ];
+
+  const stories = [
+    {
+      name: 'Мария, 8 лет',
+      story: 'Получила средства на операцию и восстановление',
+      amount: '450 000 ₽',
+      icon: 'Heart'
+    },
+    {
+      name: 'Семья Петровых',
+      story: 'Помощь многодетной семье в трудной ситуации',
+      amount: '85 000 ₽',
+      icon: 'Home'
+    },
+    {
+      name: 'Николай Иванович, 75 лет',
+      story: 'Покупка лекарств и продуктов питания',
+      amount: '25 000 ₽',
+      icon: 'ShoppingBag'
+    },
   ];
 
   return (
@@ -67,58 +67,50 @@ const Reports = () => {
       <Header />
       
       <main className="flex-1">
-        <section className="py-20 bg-gradient-to-b from-primary/5 to-background">
-          <div className="container">
-            <div className="max-w-3xl mx-auto text-center space-y-6">
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-                Отчёты о деятельности
-              </h1>
-              <p className="text-xl text-muted-foreground">
-                Прозрачность и открытость — основа нашей работы. Все средства идут на помощь людям.
-              </p>
-            </div>
+        <section className="py-20 bg-gradient-to-br from-blue-50 to-green-50">
+          <div className="container max-w-4xl text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">Отчёты о деятельности</h1>
+            <p className="text-xl text-muted-foreground">
+              Мы верим в полную прозрачность и публикуем подробные отчёты о расходовании средств
+            </p>
           </div>
         </section>
 
         <section className="py-20">
-          <div className="container">
-            <div className="text-center max-w-2xl mx-auto mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Текущие проекты
-              </h2>
-              <p className="text-muted-foreground text-lg">
-                Следите за ходом реализации наших программ
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {currentProjects.map((project, index) => (
+          <div className="container max-w-5xl">
+            <h2 className="text-3xl font-bold mb-8 text-center">Ежемесячные отчёты</h2>
+            <div className="space-y-4">
+              {reports.map((report, index) => (
                 <Card key={index}>
                   <CardHeader>
-                    <CardTitle>{project.title}</CardTitle>
-                    <CardDescription>{project.description}</CardDescription>
+                    <CardTitle className="flex items-center justify-between">
+                      <span>{report.period}</span>
+                      <Button variant="outline" size="sm" asChild>
+                        <a href={report.file} download>
+                          <Icon name="Download" size={16} className="mr-2" />
+                          Скачать PDF
+                        </a>
+                      </Button>
+                    </CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">Собрано</span>
-                        <span className="font-semibold">
-                          {(project.raised / 1000000).toFixed(1)} млн ₽
-                        </span>
+                  <CardContent>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      <div>
+                        <p className="text-sm text-muted-foreground mb-1">Получено</p>
+                        <p className="text-lg font-semibold text-green-600">{report.received}</p>
                       </div>
-                      <Progress 
-                        value={(project.raised / project.goal) * 100} 
-                        className="h-2"
-                      />
-                      <div className="flex justify-between text-sm text-muted-foreground">
-                        <span>Цель: {(project.goal / 1000000).toFixed(1)} млн ₽</span>
-                        <span>{Math.round((project.raised / project.goal) * 100)}%</span>
+                      <div>
+                        <p className="text-sm text-muted-foreground mb-1">Потрачено</p>
+                        <p className="text-lg font-semibold text-blue-600">{report.spent}</p>
                       </div>
-                    </div>
-                    <div className="pt-2 border-t">
-                      <p className="text-sm text-muted-foreground">
-                        Помогли <span className="font-semibold text-foreground">{project.helped}</span> людям
-                      </p>
+                      <div>
+                        <p className="text-sm text-muted-foreground mb-1">Проектов</p>
+                        <p className="text-lg font-semibold">{report.projects}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-muted-foreground mb-1">Получили помощь</p>
+                        <p className="text-lg font-semibold">{report.people}</p>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -128,85 +120,46 @@ const Reports = () => {
         </section>
 
         <section className="py-20 bg-muted/50">
-          <div className="container">
-            <div className="text-center max-w-2xl mx-auto mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Распределение средств
-              </h2>
-              <p className="text-muted-foreground text-lg">
-                Куда направляются пожертвования в 2024 году
-              </p>
-            </div>
-
-            <div className="max-w-3xl mx-auto">
-              <Card>
-                <CardContent className="pt-6 space-y-6">
-                  {spending.map((item, index) => (
-                    <div key={index} className="space-y-2">
-                      <div className="flex justify-between items-center">
-                        <span className="font-medium">{item.category}</span>
-                        <span className="text-2xl font-bold text-primary">{item.percent}%</span>
-                      </div>
-                      <div className="w-full bg-muted rounded-full h-3">
-                        <div
-                          className={`${item.color} h-3 rounded-full transition-all`}
-                          style={{ width: `${item.percent}%` }}
-                        />
-                      </div>
+          <div className="container max-w-5xl">
+            <h2 className="text-3xl font-bold mb-8 text-center">Распределение средств (октябрь 2024)</h2>
+            <Card>
+              <CardContent className="pt-6 space-y-6">
+                {expenses.map((expense, index) => (
+                  <div key={index} className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium">{expense.category}</span>
+                      <span className="text-sm text-muted-foreground">{expense.amount}</span>
                     </div>
-                  ))}
-                </CardContent>
-              </Card>
-
-              <div className="mt-6 p-4 bg-primary/5 rounded-lg">
-                <p className="text-sm text-muted-foreground text-center">
-                  <Icon name="Info" className="inline h-4 w-4 mr-1" />
-                  95% средств направляется на реализацию благотворительных программ
-                </p>
-              </div>
-            </div>
+                    <Progress value={expense.percent} className="h-2" />
+                    <p className="text-xs text-muted-foreground text-right">{expense.percent}%</p>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
           </div>
         </section>
 
         <section className="py-20">
-          <div className="container">
-            <div className="text-center max-w-2xl mx-auto mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Годовые отчёты
-              </h2>
-              <p className="text-muted-foreground text-lg">
-                Подробная информация о нашей деятельности за каждый год
+          <div className="container max-w-5xl">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4">Истории помощи</h2>
+              <p className="text-muted-foreground">
+                Реальные люди, которым мы помогли в этом месяце
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {annualReports.map((report, index) => (
-                <Card key={index} className="hover:shadow-lg transition-shadow">
+              {stories.map((story, index) => (
+                <Card key={index}>
                   <CardHeader>
-                    <div className="text-4xl font-bold text-primary mb-2">
-                      {report.year}
+                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                      <Icon name={story.icon as any} size={24} className="text-primary" />
                     </div>
-                    <CardDescription>{report.period}</CardDescription>
+                    <CardTitle className="text-lg">{story.name}</CardTitle>
+                    <CardDescription>{story.story}</CardDescription>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">Собрано средств</span>
-                        <span className="font-semibold">{report.raised}</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">Получили помощь</span>
-                        <span className="font-semibold">{report.helped}</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">Реализовано</span>
-                        <span className="font-semibold">{report.projects}</span>
-                      </div>
-                    </div>
-                    <Button variant="outline" className="w-full">
-                      <Icon name="Download" className="mr-2 h-4 w-4" />
-                      Скачать отчёт PDF
-                    </Button>
+                  <CardContent>
+                    <p className="text-2xl font-bold text-primary">{story.amount}</p>
                   </CardContent>
                 </Card>
               ))}
@@ -214,37 +167,19 @@ const Reports = () => {
           </div>
         </section>
 
-        <section className="py-20 bg-primary/5">
-          <div className="container">
-            <div className="max-w-3xl mx-auto">
-              <Card>
-                <CardContent className="p-8 md:p-12 space-y-6">
-                  <div className="flex items-start space-x-4">
-                    <Icon name="FileText" className="h-8 w-8 text-primary flex-shrink-0" />
-                    <div className="space-y-4">
-                      <h3 className="text-2xl font-bold">Финансовая прозрачность</h3>
-                      <p className="text-muted-foreground">
-                        Мы публикуем детальные финансовые отчёты каждый квартал и проходим независимый аудит ежегодно.
-                      </p>
-                      <ul className="space-y-2 text-muted-foreground">
-                        <li className="flex items-start">
-                          <Icon name="Check" className="h-5 w-5 text-primary mr-2 flex-shrink-0 mt-0.5" />
-                          <span>Все расходы документально подтверждены</span>
-                        </li>
-                        <li className="flex items-start">
-                          <Icon name="Check" className="h-5 w-5 text-primary mr-2 flex-shrink-0 mt-0.5" />
-                          <span>Публикация отчётов в открытом доступе</span>
-                        </li>
-                        <li className="flex items-start">
-                          <Icon name="Check" className="h-5 w-5 text-primary mr-2 flex-shrink-0 mt-0.5" />
-                          <span>Независимый аудит финансовой деятельности</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+        <section className="py-20 bg-primary text-primary-foreground">
+          <div className="container max-w-3xl text-center space-y-6">
+            <Icon name="FileCheck" size={48} className="mx-auto" />
+            <h2 className="text-3xl font-bold">Годовой отчёт 2023</h2>
+            <p className="text-lg opacity-90">
+              Подробный отчёт о деятельности фонда за весь год с полной финансовой отчётностью
+            </p>
+            <Button size="lg" variant="secondary" asChild>
+              <a href="#" download>
+                <Icon name="Download" size={20} className="mr-2" />
+                Скачать годовой отчёт
+              </a>
+            </Button>
           </div>
         </section>
       </main>

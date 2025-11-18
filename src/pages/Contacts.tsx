@@ -1,228 +1,153 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import ContactForm from '@/components/ContactForm';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { useToast } from '@/hooks/use-toast';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
 import Icon from '@/components/ui/icon';
 
 const Contacts = () => {
-  const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: '',
-  });
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    setTimeout(() => {
-      toast({
-        title: 'Сообщение отправлено!',
-        description: 'Мы свяжемся с вами в ближайшее время.',
-      });
-      setFormData({ name: '', email: '', phone: '', message: '' });
-      setIsSubmitting(false);
-    }, 1000);
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const contactInfo = [
+  const contacts = [
     {
-      icon: 'Mail',
-      title: 'Email',
-      value: 'info@dobroe-serdce.ru',
-      link: 'mailto:info@dobroe-serdce.ru',
-    },
-    {
-      icon: 'Phone',
       title: 'Телефон',
-      value: '+7 (495) 123-45-67',
-      link: 'tel:+74951234567',
+      value: '+7 (900) 123-45-67',
+      icon: 'Phone',
+      link: 'tel:+79001234567'
     },
     {
-      icon: 'MapPin',
+      title: 'Email',
+      value: 'info@charity.org',
+      icon: 'Mail',
+      link: 'mailto:info@charity.org'
+    },
+    {
       title: 'Адрес',
-      value: 'г. Москва, ул. Примерная, д. 1',
+      value: 'Москва, ул. Примерная, д. 1, офис 101',
+      icon: 'MapPin',
+      link: null
     },
     {
-      icon: 'Clock',
       title: 'Режим работы',
       value: 'Пн-Пт: 10:00-18:00',
+      icon: 'Clock',
+      link: null
     },
+  ];
+
+  const socials = [
+    { name: 'ВКонтакте', icon: 'Facebook', link: '#' },
+    { name: 'Telegram', icon: 'Send', link: '#' },
+    { name: 'Instagram', icon: 'Instagram', link: '#' },
+    { name: 'YouTube', icon: 'Youtube', link: '#' },
   ];
 
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-
+      
       <main className="flex-1">
-        <section className="py-20 bg-gradient-to-b from-primary/5 to-background">
-          <div className="container">
-            <div className="max-w-3xl mx-auto text-center mb-12">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">Свяжитесь с нами</h1>
-              <p className="text-lg text-muted-foreground">
-                Мы всегда рады ответить на ваши вопросы и выслушать предложения
-              </p>
-            </div>
+        <section className="py-20 bg-gradient-to-br from-blue-50 to-green-50">
+          <div className="container max-w-4xl text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">Контакты</h1>
+            <p className="text-xl text-muted-foreground">
+              Свяжитесь с нами любым удобным способом
+            </p>
           </div>
         </section>
 
-        <section className="py-16">
-          <div className="container">
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-              {contactInfo.map((item, index) => (
+        <section className="py-20">
+          <div className="container max-w-5xl">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+              {contacts.map((contact, index) => (
                 <Card key={index}>
-                  <CardContent className="pt-6">
-                    <div className="flex flex-col items-center text-center space-y-3">
-                      <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                        <Icon name={item.icon as any} className="h-6 w-6 text-primary" />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-sm text-muted-foreground mb-1">
-                          {item.title}
-                        </div>
-                        {item.link ? (
-                          <a
-                            href={item.link}
-                            className="text-sm font-medium hover:text-primary transition-colors"
-                          >
-                            {item.value}
-                          </a>
-                        ) : (
-                          <div className="text-sm font-medium">{item.value}</div>
-                        )}
-                      </div>
+                  <CardContent className="pt-6 text-center space-y-3">
+                    <div className="w-12 h-12 mx-auto rounded-full bg-primary/10 flex items-center justify-center">
+                      <Icon name={contact.icon as any} size={24} className="text-primary" />
                     </div>
+                    <h3 className="font-semibold">{contact.title}</h3>
+                    {contact.link ? (
+                      <a 
+                        href={contact.link}
+                        className="text-sm text-muted-foreground hover:text-primary transition-colors block"
+                      >
+                        {contact.value}
+                      </a>
+                    ) : (
+                      <p className="text-sm text-muted-foreground">{contact.value}</p>
+                    )}
                   </CardContent>
                 </Card>
               ))}
             </div>
 
-            <div className="max-w-2xl mx-auto">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-2xl">Форма обратной связи</CardTitle>
-                  <CardDescription>
-                    Заполните форму, и мы свяжемся с вами в ближайшее время
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="name">Ваше имя *</Label>
-                      <Input
-                        id="name"
-                        name="name"
-                        placeholder="Иван Иванов"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                      />
+            <div className="grid md:grid-cols-2 gap-12">
+              <div>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Напишите нам</CardTitle>
+                    <CardDescription>
+                      Мы ответим на ваше сообщение в течение 24 часов
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ContactForm />
+                  </CardContent>
+                </Card>
+              </div>
+
+              <div className="space-y-8">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Реквизиты</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-2 text-sm">
+                    <p><span className="text-muted-foreground">ИНН:</span> 1234567890</p>
+                    <p><span className="text-muted-foreground">КПП:</span> 123456789</p>
+                    <p><span className="text-muted-foreground">ОГРН:</span> 1234567890123</p>
+                    <p><span className="text-muted-foreground">Расчётный счёт:</span> 40703810000000000000</p>
+                    <p><span className="text-muted-foreground">Банк:</span> ПАО "Примербанк"</p>
+                    <p><span className="text-muted-foreground">БИК:</span> 044525225</p>
+                    <p><span className="text-muted-foreground">Корр. счёт:</span> 30101810400000000225</p>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Социальные сети</CardTitle>
+                    <CardDescription>
+                      Следите за нашими новостями и проектами
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex flex-wrap gap-4">
+                      {socials.map((social, index) => (
+                        <a
+                          key={index}
+                          href={social.link}
+                          className="flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-muted transition-colors"
+                        >
+                          <Icon name={social.icon as any} size={20} />
+                          <span className="text-sm font-medium">{social.name}</span>
+                        </a>
+                      ))}
                     </div>
+                  </CardContent>
+                </Card>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email *</Label>
-                      <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        placeholder="example@mail.ru"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                      />
+                <Card className="bg-muted/50">
+                  <CardContent className="pt-6">
+                    <div className="flex items-start gap-3">
+                      <Icon name="MapPin" size={20} className="text-primary mt-1 flex-shrink-0" />
+                      <div>
+                        <h3 className="font-semibold mb-2">Как добраться</h3>
+                        <p className="text-sm text-muted-foreground">
+                          Метро "Примерная станция", выход №3.
+                          Пешком 5 минут по направлению к центру.
+                          Здание с синим фасадом, вход со двора.
+                        </p>
+                      </div>
                     </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="phone">Телефон</Label>
-                      <Input
-                        id="phone"
-                        name="phone"
-                        type="tel"
-                        placeholder="+7 (999) 123-45-67"
-                        value={formData.phone}
-                        onChange={handleChange}
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="message">Сообщение *</Label>
-                      <Textarea
-                        id="message"
-                        name="message"
-                        placeholder="Расскажите, чем мы можем вам помочь..."
-                        rows={5}
-                        value={formData.message}
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
-
-                    <Button type="submit" className="w-full" disabled={isSubmitting}>
-                      {isSubmitting ? 'Отправка...' : 'Отправить сообщение'}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-16 bg-muted/50">
-          <div className="container">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold mb-4">Мы в социальных сетях</h2>
-              <p className="text-muted-foreground">
-                Подписывайтесь на нас, чтобы узнавать о новостях и событиях
-              </p>
-            </div>
-
-            <div className="flex justify-center gap-4">
-              <a
-                href="https://vk.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="h-12 w-12 rounded-full bg-background border-2 hover:border-primary flex items-center justify-center transition-all hover:scale-110"
-              >
-                <Icon name="Share2" className="h-5 w-5" />
-              </a>
-              <a
-                href="https://t.me"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="h-12 w-12 rounded-full bg-background border-2 hover:border-primary flex items-center justify-center transition-all hover:scale-110"
-              >
-                <Icon name="Send" className="h-5 w-5" />
-              </a>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="h-12 w-12 rounded-full bg-background border-2 hover:border-primary flex items-center justify-center transition-all hover:scale-110"
-              >
-                <Icon name="Instagram" className="h-5 w-5" />
-              </a>
-              <a
-                href="https://youtube.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="h-12 w-12 rounded-full bg-background border-2 hover:border-primary flex items-center justify-center transition-all hover:scale-110"
-              >
-                <Icon name="Youtube" className="h-5 w-5" />
-              </a>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
         </section>

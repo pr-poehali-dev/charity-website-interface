@@ -1,82 +1,89 @@
-import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import Icon from '@/components/ui/icon';
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import Icon from "@/components/ui/icon";
+import { Link, useLocation } from "react-router-dom";
+import { useState } from "react";
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
-  const navItems = [
-    { path: '/', label: 'Главная' },
-    { path: '/about', label: 'О фонде' },
-    { path: '/help', label: 'Как помочь' },
-    { path: '/reports', label: 'Отчёты' },
-    { path: '/contacts', label: 'Контакты' },
+  const navigation = [
+    { name: "Главная", path: "/" },
+    { name: "О фонде", path: "/about" },
+    { name: "Как помочь", path: "/donate" },
+    { name: "Отчёты", path: "/reports" },
+    { name: "Контакты", path: "/contacts" },
   ];
 
   const isActive = (path: string) => location.pathname === path;
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between">
-        <Link to="/" className="flex items-center gap-2">
-          <Icon name="Heart" className="text-primary" size={28} />
-          <span className="font-semibold text-lg">Доброе сердце</span>
-        </Link>
+      <div className="container mx-auto px-4">
+        <div className="flex h-16 items-center justify-between">
+          <Link to="/" className="flex items-center gap-2">
+            <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+              <Icon name="Heart" size={20} className="text-primary-foreground" />
+            </div>
+            <span className="font-bold text-xl">Доброе сердце</span>
+          </Link>
 
-        <nav className="hidden md:flex items-center gap-6">
-          {navItems.map((item) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              className={`text-sm font-medium transition-colors hover:text-primary ${
-                isActive(item.path) ? 'text-primary' : 'text-muted-foreground'
-              }`}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-4">
-          <Button asChild className="hidden md:inline-flex">
-            <Link to="/donate">Пожертвовать</Link>
-          </Button>
-
-          <button
-            className="md:hidden"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Меню"
-          >
-            <Icon name={isMenuOpen ? 'X' : 'Menu'} size={24} />
-          </button>
-        </div>
-      </div>
-
-      {isMenuOpen && (
-        <div className="md:hidden border-t">
-          <nav className="container py-4 flex flex-col gap-4">
-            {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                onClick={() => setIsMenuOpen(false)}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  isActive(item.path) ? 'text-primary' : 'text-muted-foreground'
-                }`}
-              >
-                {item.label}
+          <nav className="hidden md:flex items-center gap-1">
+            {navigation.map((item) => (
+              <Link key={item.path} to={item.path}>
+                <Button
+                  variant={isActive(item.path) ? "secondary" : "ghost"}
+                  className="text-base"
+                >
+                  {item.name}
+                </Button>
               </Link>
             ))}
-            <Button asChild className="w-full">
-              <Link to="/donate" onClick={() => setIsMenuOpen(false)}>
+          </nav>
+
+          <div className="flex items-center gap-3">
+            <Button asChild className="hidden sm:flex">
+              <Link to="/donate">
+                <Icon name="Heart" size={18} className="mr-2" />
                 Пожертвовать
               </Link>
             </Button>
-          </nav>
+
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger asChild className="md:hidden">
+                <Button variant="ghost" size="icon">
+                  <Icon name="Menu" size={24} />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[300px]">
+                <div className="flex flex-col gap-4 mt-8">
+                  {navigation.map((item) => (
+                    <Link
+                      key={item.path}
+                      to={item.path}
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <Button
+                        variant={isActive(item.path) ? "secondary" : "ghost"}
+                        className="w-full justify-start text-base"
+                      >
+                        {item.name}
+                      </Button>
+                    </Link>
+                  ))}
+                  <Button asChild className="w-full mt-4">
+                    <Link to="/donate" onClick={() => setIsOpen(false)}>
+                      <Icon name="Heart" size={18} className="mr-2" />
+                      Пожертвовать
+                    </Link>
+                  </Button>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
-      )}
+      </div>
     </header>
   );
 };

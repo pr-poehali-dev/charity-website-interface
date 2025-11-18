@@ -1,195 +1,177 @@
 import { useState } from 'react';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
-import { useToast } from '@/hooks/use-toast';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
 import Icon from '@/components/ui/icon';
+import { useToast } from '@/hooks/use-toast';
 
 const Donate = () => {
   const { toast } = useToast();
   const [amount, setAmount] = useState('1000');
+  const [frequency, setFrequency] = useState('once');
   const [customAmount, setCustomAmount] = useState('');
-  const [isRecurring, setIsRecurring] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const predefinedAmounts = ['500', '1000', '2500', '5000'];
+  const presetAmounts = [
+    { value: '500', label: '500 ₽' },
+    { value: '1000', label: '1 000 ₽' },
+    { value: '3000', label: '3 000 ₽' },
+    { value: '5000', label: '5 000 ₽' },
+  ];
 
-  const handleDonate = () => {
-    setIsSubmitting(true);
-    setTimeout(() => {
-      toast({
-        title: 'Спасибо за ваше пожертвование!',
-        description: `Вы помогли на ${amount || customAmount} ₽. Это очень важно для нас!`,
-      });
-      setIsSubmitting(false);
-    }, 1500);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const finalAmount = customAmount || amount;
+    
+    toast({
+      title: 'Спасибо за ваше пожертвование!',
+      description: `Сумма ${finalAmount} ₽ будет направлена на помощь нуждающимся`,
+    });
   };
-
-  const selectedAmount = customAmount || amount;
 
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-
+      
       <main className="flex-1">
-        <section className="py-20 bg-gradient-to-b from-primary/5 to-background">
-          <div className="container">
-            <div className="max-w-3xl mx-auto text-center mb-12">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">Сделать пожертвование</h1>
-              <p className="text-lg text-muted-foreground">
-                Ваша помощь меняет жизни людей. Спасибо за вашу доброту!
-              </p>
-            </div>
+        <section className="py-20 bg-gradient-to-br from-blue-50 to-green-50">
+          <div className="container max-w-4xl text-center">
+            <Icon name="Heart" size={64} className="mx-auto text-primary mb-6" />
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">Сделать пожертвование</h1>
+            <p className="text-xl text-muted-foreground">
+              Ваша поддержка меняет жизни людей к лучшему
+            </p>
           </div>
         </section>
 
-        <section className="py-16">
-          <div className="container max-w-4xl">
-            <div className="grid md:grid-cols-3 gap-8 mb-12">
-              <Card>
-                <CardContent className="pt-6 text-center">
-                  <Icon name="Heart" className="h-12 w-12 text-primary mx-auto mb-3" />
-                  <div className="text-2xl font-bold mb-1">500 ₽</div>
-                  <p className="text-sm text-muted-foreground">
-                    Продукты первой необходимости для одной семьи
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="pt-6 text-center">
-                  <Icon name="Stethoscope" className="h-12 w-12 text-primary mx-auto mb-3" />
-                  <div className="text-2xl font-bold mb-1">2 500 ₽</div>
-                  <p className="text-sm text-muted-foreground">
-                    Медикаменты для тяжелобольного ребёнка на месяц
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="pt-6 text-center">
-                  <Icon name="GraduationCap" className="h-12 w-12 text-primary mx-auto mb-3" />
-                  <div className="text-2xl font-bold mb-1">5 000 ₽</div>
-                  <p className="text-sm text-muted-foreground">
-                    Учебные материалы для ребёнка на год
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-
+        <section className="py-20">
+          <div className="container max-w-2xl">
             <Card>
               <CardHeader>
-                <CardTitle className="text-2xl">Выберите сумму</CardTitle>
+                <CardTitle>Выберите сумму пожертвования</CardTitle>
                 <CardDescription>
-                  Любая сумма имеет значение. Вы можете выбрать из предложенных или указать свою.
+                  Любая сумма поможет нуждающимся людям
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <div>
-                  <Label className="mb-3 block">Быстрый выбор суммы</Label>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    {predefinedAmounts.map((value) => (
-                      <Button
-                        key={value}
-                        variant={amount === value && !customAmount ? 'default' : 'outline'}
-                        onClick={() => {
-                          setAmount(value);
-                          setCustomAmount('');
-                        }}
-                        className="h-12"
-                      >
-                        {value} ₽
-                      </Button>
-                    ))}
+              <CardContent>
+                <form onSubmit={handleSubmit} className="space-y-8">
+                  <div className="space-y-4">
+                    <Label>Частота пожертвований</Label>
+                    <RadioGroup value={frequency} onValueChange={setFrequency}>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="once" id="once" />
+                        <Label htmlFor="once" className="cursor-pointer">Разовое пожертвование</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="monthly" id="monthly" />
+                        <Label htmlFor="monthly" className="cursor-pointer">Ежемесячное пожертвование</Label>
+                      </div>
+                    </RadioGroup>
                   </div>
-                </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="custom-amount">Или укажите свою сумму</Label>
-                  <Input
-                    id="custom-amount"
-                    type="number"
-                    placeholder="Введите сумму"
-                    value={customAmount}
-                    onChange={(e) => {
-                      setCustomAmount(e.target.value);
-                      setAmount('');
-                    }}
-                    min="1"
-                  />
-                </div>
-
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="recurring"
-                    checked={isRecurring}
-                    onCheckedChange={(checked) => setIsRecurring(checked as boolean)}
-                  />
-                  <Label htmlFor="recurring" className="cursor-pointer">
-                    Сделать регулярным (ежемесячно)
-                  </Label>
-                </div>
-
-                <div className="pt-4 space-y-4">
-                  <div className="text-center">
-                    <div className="text-sm text-muted-foreground mb-2">
-                      Вы собираетесь {isRecurring ? 'пожертвовать ежемесячно' : 'сделать разовое пожертвование'}:
-                    </div>
-                    <div className="text-3xl font-bold text-primary">
-                      {selectedAmount ? `${selectedAmount} ₽` : '0 ₽'}
+                  <div className="space-y-4">
+                    <Label>Сумма</Label>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                      {presetAmounts.map((preset) => (
+                        <Button
+                          key={preset.value}
+                          type="button"
+                          variant={amount === preset.value && !customAmount ? 'default' : 'outline'}
+                          onClick={() => {
+                            setAmount(preset.value);
+                            setCustomAmount('');
+                          }}
+                          className="h-16"
+                        >
+                          {preset.label}
+                        </Button>
+                      ))}
                     </div>
                   </div>
 
-                  <Button
-                    className="w-full h-12"
-                    size="lg"
-                    onClick={handleDonate}
-                    disabled={!selectedAmount || isSubmitting}
-                  >
-                    <Icon name="Heart" className="mr-2 h-5 w-5" />
-                    {isSubmitting ? 'Обработка...' : 'Пожертвовать'}
-                  </Button>
-                </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="custom">Другая сумма</Label>
+                    <Input
+                      id="custom"
+                      type="number"
+                      placeholder="Введите сумму"
+                      value={customAmount}
+                      onChange={(e) => setCustomAmount(e.target.value)}
+                      min="1"
+                    />
+                  </div>
 
-                <div className="text-xs text-muted-foreground text-center pt-4 border-t">
-                  Нажимая кнопку, вы соглашаетесь с условиями обработки персональных данных.
-                  Платежи проходят через защищённое соединение.
-                </div>
+                  <div className="space-y-4">
+                    <Label htmlFor="name">Имя</Label>
+                    <Input id="name" placeholder="Ваше имя" required />
+                  </div>
+
+                  <div className="space-y-4">
+                    <Label htmlFor="email">Email</Label>
+                    <Input id="email" type="email" placeholder="your@email.com" required />
+                  </div>
+
+                  <div className="space-y-4">
+                    <Label htmlFor="phone">Телефон (необязательно)</Label>
+                    <Input id="phone" type="tel" placeholder="+7 (900) 123-45-67" />
+                  </div>
+
+                  <div className="pt-4 space-y-4">
+                    <div className="p-4 bg-muted rounded-lg">
+                      <div className="flex justify-between items-center text-lg font-semibold">
+                        <span>Итого:</span>
+                        <span className="text-2xl text-primary">{customAmount || amount} ₽</span>
+                      </div>
+                      {frequency === 'monthly' && (
+                        <p className="text-sm text-muted-foreground mt-2">
+                          Ежемесячное списание
+                        </p>
+                      )}
+                    </div>
+
+                    <Button type="submit" size="lg" className="w-full">
+                      <Icon name="Heart" size={20} className="mr-2" />
+                      Пожертвовать
+                    </Button>
+
+                    <p className="text-xs text-center text-muted-foreground">
+                      Нажимая кнопку, вы соглашаетесь с условиями обработки персональных данных
+                    </p>
+                  </div>
+                </form>
               </CardContent>
             </Card>
 
-            <div className="mt-12 grid md:grid-cols-3 gap-6">
-              <Card className="border-primary/20">
-                <CardContent className="pt-6 text-center">
-                  <Icon name="Shield" className="h-8 w-8 text-primary mx-auto mb-3" />
-                  <h3 className="font-semibold mb-2">Безопасность</h3>
+            <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+              <Card>
+                <CardContent className="pt-6 text-center space-y-2">
+                  <Icon name="Shield" size={32} className="mx-auto text-primary" />
+                  <h3 className="font-semibold">Безопасно</h3>
                   <p className="text-sm text-muted-foreground">
-                    Все платежи защищены SSL-шифрованием
+                    Платёж защищён шифрованием
                   </p>
                 </CardContent>
               </Card>
 
-              <Card className="border-primary/20">
-                <CardContent className="pt-6 text-center">
-                  <Icon name="FileText" className="h-8 w-8 text-primary mx-auto mb-3" />
-                  <h3 className="font-semibold mb-2">Прозрачность</h3>
+              <Card>
+                <CardContent className="pt-6 text-center space-y-2">
+                  <Icon name="FileCheck" size={32} className="mx-auto text-primary" />
+                  <h3 className="font-semibold">Документы</h3>
                   <p className="text-sm text-muted-foreground">
-                    Подробные отчёты о расходовании средств
+                    Все документы для отчётности
                   </p>
                 </CardContent>
               </Card>
 
-              <Card className="border-primary/20">
-                <CardContent className="pt-6 text-center">
-                  <Icon name="Award" className="h-8 w-8 text-primary mx-auto mb-3" />
-                  <h3 className="font-semibold mb-2">Налоговый вычет</h3>
+              <Card>
+                <CardContent className="pt-6 text-center space-y-2">
+                  <Icon name="Receipt" size={32} className="mx-auto text-primary" />
+                  <h3 className="font-semibold">Вычет</h3>
                   <p className="text-sm text-muted-foreground">
-                    Документы для получения вычета
+                    Можно получить налоговый вычет
                   </p>
                 </CardContent>
               </Card>
